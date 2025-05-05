@@ -1,0 +1,32 @@
+@model IEnumerable<Sinif>
+
+@{
+    ViewData["Title"] = "Sınıflar";
+}
+
+
+<h1>Sınıflar</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sınıf Adı</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sinif in Model)
+        {
+            <tr>
+                <td>@sinif.Id</td>
+                <td>@sinif.SinifAdi</td>
+                <td>
+                    <a asp-action="Guncelle" asp-route-id="@sinif.Id" class="btn btn-primary">Düzenle</a>
+                    <a asp-action="Sil" asp-route-id="@sinif.Id" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div><a asp-action="Ekle" class="btn btn-success">Yeni Sınıf Ekle</a></div>

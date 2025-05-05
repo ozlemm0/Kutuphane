@@ -1,0 +1,60 @@
+@model IEnumerable<Kutuphane.Models.Kitap>
+
+@{
+    ViewData["Title"] = "Kitaplar";
+}
+
+<h1>Kitaplar</h1>
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.KitapAdi)</th>
+            <th>@Html.DisplayNameFor(model => model.Yazar)</th>
+            <th>@Html.DisplayNameFor(model => model.Yayinevi)</th>
+            <th>@Html.DisplayNameFor(model => model.ISBN)</th>
+            <th>@Html.DisplayNameFor(model => model.Kategori)</th>
+            <th>@Html.DisplayNameFor(model => model.OduncVerildiMi)</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.KitapAdi)</td>
+                <td>@Html.DisplayFor(modelItem => item.Yazar)</td>
+                <td>@Html.DisplayFor(modelItem => item.Yayinevi)</td>
+                <td>@Html.DisplayFor(modelItem => item.ISBN)</td>
+                <td>
+                    @if (item.Kategori != null)
+                    {
+                        @item.Kategori.KategoriAdi
+                    }
+                    else
+                    {
+                        <em>Kategori Yok</em> <!-- İstersen başka bir mesaj verebilirsin -->
+                    }
+                </td>
+                <td>
+                    @if (item.OduncVerildiMi)
+                    {
+                        <span class="badge bg-danger">Ödünç Verildi</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Mevcut</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Guncelle" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Güncelle</a>
+                    <a asp-action="Sil" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div> <a asp-action="Ekle" class="btn btn-primary">Yeni Kitap Ekle</a></div>
+   

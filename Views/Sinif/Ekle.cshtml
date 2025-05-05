@@ -1,0 +1,20 @@
+@model Sinif
+
+@{
+    ViewData["Title"] = "Sınıf Ekle";
+}
+
+<h2>Sınıf Ekle</h2>
+
+<form asp-action="Ekle" method="post">
+    <div class="form-group">
+        <label asp-for="SinifAdi" class="control-label"></label>
+        <input asp-for="SinifAdi" class="form-control" />
+        <span asp-validation-for="SinifAdi" class="text-danger"></span>
+    </div><br>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

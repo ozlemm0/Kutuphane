@@ -1,0 +1,48 @@
+@model Kutuphane.Models.OduncKitap
+
+@{
+    ViewData["Title"] = "Teslim Al";
+}
+
+<h2>Kitap Teslim Onayı</h2>
+
+<div>
+    <h4>Ödünç Kitap Bilgileri</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Kitap Adı</dt>
+        <dd class="col-sm-9">@Model.Kitap?.Id</dd>
+
+        <dt class="col-sm-3">Öğrenci</dt>
+        <dd class="col-sm-9">@Model.Ogrenci?.Id</dd>
+
+        <dt class="col-sm-3">Ödünç Alınma Tarihi</dt>
+        <dd class="col-sm-9">@Model.OduncAlmaTarihi.ToString("dd.MM.yyyy")</dd>
+
+        <dt class="col-sm-3">Teslim Tarihi</dt>
+        <dd class="col-sm-9">
+            @(Model.TeslimTarihi.HasValue ? Model.TeslimTarihi.Value.ToString("dd.MM.yyyy HH:mm") : "Henüz teslim edilmedi")
+        </dd>
+
+        <dt class="col-sm-3">Teslim Durumu</dt>
+        <dd class="col-sm-9">
+            @if (Model.TeslimDurumu)
+            {
+                <span class="text-success">Teslim Edildi</span>
+            }
+            else
+            {
+                <span class="text-danger">Teslim Edilmedi</span>
+            }
+        </dd>
+    </dl>
+
+    <form asp-action="TeslimAl" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <p><strong>Bu kitabı teslim almak istiyor musunuz?</strong></p>
+            <button type="submit" class="btn btn-success">Evet, Teslim Al</button>
+            <a asp-action="Index" class="btn btn-secondary">İptal</a>
+        </div>
+    </form>
+</div>

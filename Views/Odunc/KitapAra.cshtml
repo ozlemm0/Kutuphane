@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Kitap Ara";
+}
+
+<h2>Kitap Arama</h2>
+
+<div class="form-group">
+    <label for="arama">Kitap Adı:</label>
+    <input type="text" id="arama" class="form-control" placeholder="Kitap adı giriniz..." />
+</div>
+
+<table class="table table-bordered mt-3" id="sonuclar">
+    <thead>
+        <tr>
+            <th>Kitap Adı</th>
+            <th>Ödünç Durumu</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Sonuçlar buraya gelecek -->
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#arama').on('keyup', function () {
+                var arama = $(this).val();
+
+                if (arama.length < 2) {
+                    $('#sonuclar tbody').empty();
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("KitapAra", "Kitap")',
+                    type: 'GET',
+                    data: { arama: arama },
+                    success: function (data) {
+                        var tbody = $('#sonuclar tbody');
+                        tbody.empty();
+
+                        if (data.length === 0) {
+                            tbody.append('<tr><td colspan="2">Sonuç bulunamadı.</td></tr>');
+                        } else {
+                            $.each(data, function (i, kitap) {
+                                var oduncDurumu = kitap.oduncDurumu
+                                    ? '<span class="text-danger">Ödünçte</span>'
+                                    : '<span class="text-success">Müsait</span>';
+
+                                tbody.append('<tr><td>' + kitap.kitapAdi + '</td><td>' + oduncDurumu + '</td></tr>');
+                            });
+                        }
+                    },
+                    error: function () {
+                        alert("Bir hata oluştu.");
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,69 @@
+@model IEnumerable<Kutuphane.Models.OduncKitap>
+
+@{
+    ViewData["Title"] = "Ödünç Kitap Listesi";
+}
+
+<h1>Ödünç Kitap Listesi</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Kitap.KitapAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ogrenci.OgrenciAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OduncAlmaTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeslimTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeslimDurumu)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kitap.KitapAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ogrenci.OgrenciAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OduncAlmaTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeslimTarihi)
+                </td>
+                <td>
+                    @if (item.TeslimDurumu)
+                    {
+                        <span class="badge bg-success">Teslim Edildi</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">Ödünç Alındı</span>
+                    }
+                </td>
+                <td>
+                    @if (!item.TeslimDurumu)
+                    {
+                        <a asp-action="TeslimAl" asp-route-id="@item.Id" class="btn btn-success">Teslim Al</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> 
+<p>
+    <a asp-action="Ver" class="btn btn-primary">Yeni Ödünç Ver</a>
+</p>

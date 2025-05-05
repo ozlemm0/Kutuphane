@@ -1,0 +1,40 @@
+@model  List<Ogrenci>
+
+@{
+    ViewData["Title"] = "Öğrenci Listesi";
+}
+
+<h1>Öğrenci Listesi</h1>
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Adı</th>
+            <th>Soyadı</th>
+            <th>Okul Numarası</th>
+            <th>Sınıf</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ogrenci in Model)
+        {
+            <tr>
+                <td>@ogrenci.Id</td>
+                <td>@ogrenci.OgrenciAdi</td>
+                <td>@ogrenci.OgrenciSoyadi</td>
+                <td>@ogrenci.OkulNumarasi</td>
+                <td>@ogrenci.Sinif?.SinifAdi</td>
+                <td>
+                    <a href="/Ogrenci/Guncelle/@ogrenci.Id" class="btn btn-warning btn-sm">Güncelle</a>
+                    <a href="/Ogrenci/Sil/@ogrenci.Id" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+  <div><a href="/Ogrenci/Ekle" class="btn btn-primary">Yeni Ögrenci Ekle</a></div>

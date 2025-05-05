@@ -1,0 +1,30 @@
+@model Ogrenci
+
+<h2>Öğrenci Güncelle</h2>
+
+<form asp-action="Guncelle" method="post">
+    <div class="form-group">
+        <label asp-for="OgrenciAdi" class="control-label"></label>
+        <input asp-for="OgrenciAdi" class="form-control" />
+        <span asp-validation-for="OgrenciAdi" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OgrenciSoyadi" class="control-label"></label>
+        <input asp-for="OgrenciSoyadi" class="form-control" />
+        <span asp-validation-for="OgrenciSoyadi" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="OkulNumarasi" class="control-label"></label>
+        <input asp-for="OkulNumarasi" class="form-control" />
+        <span asp-validation-for="OkulNumarasi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SinifId" class="control-label"></label>
+        <select class="form-control" asp-for="SinifId" asp-items="@(ViewBag.Siniflar)">
+            <option value="0">Bir Sınıf Seç</option>
+        </select>
+        <span asp-validation-for="SinifId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+</form>

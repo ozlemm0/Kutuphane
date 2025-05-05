@@ -1,0 +1,199 @@
+@model Kutuphane.Models.OduncKitap
+
+@{
+    ViewData["Title"] = "Kitap Ödünç Ver";
+}
+
+<h1>Kitap Ödünç Ver</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form id="oduncForm">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <!-- Kitap Arama ve Seçim -->
+            <div class="form-group mb-3">
+                <label class="control-label">Kitap Ara</label>
+                <input type="text" id="kitapArama" class="form-control" placeholder="Kitap adı yazın..." />
+                <div id="kitapSonuclari" class="list-group mt-2" style="display:none;">
+                    <!-- Kitap sonuçları buraya gelecek -->
+                </div>
+                <div id="seciliKitap" class="alert alert-success mt-2" style="display:none;">
+                    <strong>Seçili Kitap:</strong> <span id="seciliKitapAdi"></span>
+                    <input type="hidden" asp-for="KitapId" id="kitapId" />
+                </div>
+            </div>
+
+            <!-- Öğrenci Arama ve Seçim -->
+            <div class="form-group mb-3">
+                <label class="control-label">Öğrenci Ara</label>
+                <input type="text" id="ogrenciArama" class="form-control" placeholder="Öğrenci adı yazın..." />
+                <div id="ogrenciSonuclari" class="list-group mt-2" style="display:none;">
+                    <!-- Öğrenci sonuçları buraya gelecek -->
+                </div>
+                <div id="seciliOgrenci" class="alert alert-success mt-2" style="display:none;">
+                    <strong>Seçili Öğrenci:</strong> <span id="seciliOgrenciAdi"></span>
+                    <input type="hidden" asp-for="OgrenciId" id="ogrenciId" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" id="tamamlaBtn" disabled>Tamamla</button>
+                <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Toast Bildirimleri -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Başarılı</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Kitap başarıyla ödünç verildi.
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function() {
+            // Kitap arama işlemi
+            $('#kitapArama').on('input', function() {
+                var arama = $(this).val();
+                if (arama.length >= 2) {
+                    $.get('/Odunc/KitapAra', { arama: arama }, function(kitaplar) {
+                        var sonuclar = $('#kitapSonuclari');
+                        sonuclar.empty();
+                        sonuclar.show();
+                        
+                        kitaplar.forEach(function(kitap) {
+                            var durum = kitap.oduncDurumu ? ' (Ödünç Verildi)' : '';
+                            var disabled = kitap.oduncDurumu ? 'disabled' : '';
+                            sonuclar.append(`
+                                <a href="#" class="list-group-item list-group-item-action ${disabled}" 
+                                   data-id="${kitap.id}" 
+                                   data-ad="${kitap.kitapAdi}">
+                                    ${kitap.kitapAdi}${durum}
+                                </a>
+                            `);
+                        });
+                    });
+                } else {
+                    $('#kitapSonuclari').hide();
+                }
+            });
+
+            // Öğrenci arama işlemi
+            $('#ogrenciArama').on('input', function() {
+                var arama = $(this).val();
+                if (arama.length >= 2) {
+                    $.get('/Odunc/OgrenciAra', { arama: arama }, function(ogrenciler) {
+                        var sonuclar = $('#ogrenciSonuclari');
+                        sonuclar.empty();
+                        sonuclar.show();
+                        
+                        ogrenciler.forEach(function(ogrenci) {
+                            sonuclar.append(`
+                                <a href="#" class="list-group-item list-group-item-action" 
+                                   data-id="${ogrenci.id}" 
+                                   data-ad="${ogrenci.adSoyad}">
+                                    ${ogrenci.adSoyad}
+                                </a>
+                            `);
+                        });
+                    });
+                } else {
+                    $('#ogrenciSonuclari').hide();
+                }
+            });
+
+            // Kitap seçme işlemi
+            $('#kitapSonuclari').on('click', 'a', function(e) {
+                e.preventDefault();
+                if (!$(this).hasClass('disabled')) {
+                    var id = $(this).data('id');
+                    var ad = $(this).data('ad');
+                    
+                    $('#kitapId').val(id);
+                    $('#seciliKitapAdi').text(ad);
+                    $('#seciliKitap').show();
+                    $('#kitapSonuclari').hide();
+                    $('#kitapArama').val('');
+                    
+                    kontrolEt();
+                }
+            });
+
+            // Öğrenci seçme işlemi
+            $('#ogrenciSonuclari').on('click', 'a', function(e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                var ad = $(this).data('ad');
+                
+                $('#ogrenciId').val(id);
+                $('#seciliOgrenciAdi').text(ad);
+                $('#seciliOgrenci').show();
+                $('#ogrenciSonuclari').hide();
+                $('#ogrenciArama').val('');
+                
+                kontrolEt();
+            });
+
+            // Tamamla butonunu kontrol et
+            function kontrolEt() {
+                var kitapSecildi = $('#kitapId').val() !== '';
+                var ogrenciSecildi = $('#ogrenciId').val() !== '';
+                $('#tamamlaBtn').prop('disabled', !(kitapSecildi && ogrenciSecildi));
+            }
+
+            // Tamamla butonuna tıklandığında
+            $('#tamamlaBtn').click(function() {
+                var formData = {
+                    KitapId: $('#kitapId').val(),
+                    OgrenciId: $('#ogrenciId').val()
+                };
+
+                console.log('Gönderilen veri:', formData); // Debug için
+
+                $.ajax({
+                    url: '/Odunc/Ver',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(response) {
+                        console.log('Sunucu yanıtı:', response); // Debug için
+                        if (response.success) {
+                            // Başarılı toast göster
+                            var toast = new bootstrap.Toast(document.getElementById('successToast'));
+                            toast.show();
+
+                            // 2 saniye sonra listeye yönlendir
+                            setTimeout(function() {
+                                window.location.href = '/Odunc';
+                            }, 2000);
+                        } else {
+                            // Hata mesajı göster
+                            alert('Bir hata oluştu: ' + response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Hata:', error); // Debug için
+                        console.log('XHR:', xhr); // Debug için
+                        alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                    }
+                });
+            });
+        });
+    </script>
+} 
