@@ -1,8 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Kutuphane.Models.KitapOduncİslemleri>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Zamanında Teslim Edilmeyen Kitaplar</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Öğrenci Adı</th>
+            <th>Kitap Adı</th>
+            <th>Alınma Tarihi</th>
+            <th>Teslim Tarihi</th>
+            <th>Gerçek Teslim Tarihi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OgrenciAdi</td>
+                <td>@item.KitapAdi</td>
+                <td>@item.AlinmaTarihi.ToString("dd/MM/yyyy")</td>
+                <td>@item.TeslimTarihi.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @if (item.GercekTeslimTarihi.HasValue)
+                    {
+                        @item.GercekTeslimTarihi.Value.ToString("dd/MM/yyyy")
+                    }
+                    else
+                    {
+                        <span class="text-danger">Teslim Edilmedi</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

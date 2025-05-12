@@ -2,6 +2,7 @@ using Kutuphane.Models;
 using Kutuphane.Data;
 using Kutuphane.Controllers;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Kutuphane.Data
 {
@@ -16,6 +17,7 @@ namespace Kutuphane.Data
         public DbSet<Kategori> Kategoriler { get; set; }
         public DbSet<Kitap> Kitaplar { get; set; }
         public DbSet<OduncKitap> OduncKitaplar { get; set; }
+        public DbSet<KitapOduncİslemleri> kitapOduncİslemleris {get;set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }
