@@ -1,0 +1,129 @@
+@model Kutuphane.Models.ViewModels.RaporViewModel
+
+<h2>En Çok Okuyan Öğrenciler</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Ad Soyad</th>
+            <th>Okuma Sayısı</th>
+            <th>Detay</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        int sirano = 1;
+    }
+    @foreach (var item in Model.EnCokOkuyanOgrenciler)
+    {
+        <tr>
+            <td>@sirano</td>
+            <td>@item.AdSoyad</td>
+            <td>@item.OkumaSayisi</td>
+            <td>
+                <a href="@Url.Action("Index", "Rapor", new { secilenOgrenciId = item.OgrenciId })">Kitapları Gör</a>
+            </td>
+        </tr>
+        sirano++;
+    }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>En Çok Okunan Kitaplar</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Kitap Adı</th>
+            <th>Yazar</th>
+            <th>Okunma Sayısı</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        sirano = 1;
+    }
+    @foreach (var item in Model.EnCokOkunanKitaplar)
+    {
+        <tr>
+            <td>@sirano</td>
+            <td>@item.KitapAdi</td>
+            <td>@item.Yazar</td>
+            <td>@item.OkunmaSayisi</td>
+        </tr>
+        sirano++;
+    }
+    </tbody>
+</table>
+
+<hr />
+
+<h2>Ödünç Verilen Kitaplar</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Kitap Adı</th>
+            <th>Öğrenci</th>
+            <th>Ödünç Alma Tarihi</th>
+            <th>Teslim Tarihi</th>
+            <th>Teslim Durumu</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        sirano = 1;
+    }
+    @foreach (var item in Model.OduncVerilenKitaplar)
+    {
+        <tr>
+            <td>@sirano</td>
+            <td>@item.KitapAdi</td>
+            <td>@item.OgrenciAdSoyad</td>
+            <td>@item.OduncAlmaTarihi.ToString("dd.MM.yyyy")</td>
+            <td>@(item.TeslimTarihi?.ToString("dd.MM.yyyy") ?? "-")</td>
+            <td>@(item.TeslimDurumu ? "Teslim Edildi" : "Teslim Edilmedi")</td>
+        </tr>
+        sirano++;
+    }
+    </tbody>
+</table>
+
+@if (Model.SecilenOgrenciId.HasValue)
+{
+    <hr />
+    <h2>@Model.SecilenOgrenciAdSoyad kullanıcısının Okuduğu Kitaplar</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Kitap Adı</th>
+                <th>Ödünç Alma Tarihi</th>
+                <th>Teslim Tarihi</th>
+                <th>Teslim Durumu</th>
+            </tr>
+        </thead>
+        <tbody>
+        @{
+            sirano = 1;
+        }
+        @foreach (var item in Model.SecilenOgrencininKitaplari)
+        {
+            <tr>
+                <td>@sirano</td>
+                <td>@item.KitapAdi</td>
+                <td>@item.OduncAlmaTarihi.ToString("dd.MM.yyyy")</td>
+                <td>@(item.TeslimTarihi?.ToString("dd.MM.yyyy") ?? "-")</td>
+                <td>@(item.TeslimDurumu ? "Teslim Edildi" : "Teslim Edilmedi")</td>
+            </tr>
+            sirano++;
+        }
+        </tbody>
+    </table>
+}
