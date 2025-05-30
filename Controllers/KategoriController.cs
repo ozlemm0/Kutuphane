@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Kutuphane.Data;
 using Kutuphane.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kutuphane.Controllers
 {
+    [Authorize]
     public class KategoriController : Controller
     {
         private readonly KutuphaneDbContext _context;
@@ -108,9 +110,9 @@ namespace Kutuphane.Controllers
         }
 
         // POST: Kategori/Sil/5
-        [HttpPost, ActionName("Sil")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SilOnayla(int id)
+        public async Task<IActionResult> Sil(int id)
         {
             var kategori = await _context.Kategoriler.FindAsync(id);
             if (kategori != null)

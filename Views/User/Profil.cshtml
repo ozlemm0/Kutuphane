@@ -1,0 +1,43 @@
+@model Kutuphane.Models.User
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Kullanıcı Profili</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle display-4 text-primary"></i>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" value="@Model.Username" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ad</label>
+                        <input type="text" class="form-control" value="@Model.Name" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Soyad</label>
+                        <input type="text" class="form-control" value="@Model.Surname" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-posta Adresi</label>
+                        <input type="email" class="form-control" value="@Model.Email" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <input type="text" class="form-control" value="@(Model.IsAdmin ? "Yönetici" : "Kullanıcı")" readonly>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("Logout", "User")" class="btn btn-danger">
+                        <i class="bi bi-box-arrow-right me-2"></i>Çıkış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

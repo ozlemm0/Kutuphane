@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Kullanıcı Girişi";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Kütüphane Kullanıcı Girişi</h2>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["SuccessMessage"]
+                        </div>
+                    }
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var modelState in ViewData.ModelState.Values)
+                            {
+                                @foreach (var error in modelState.Errors)
+                                {
+                                    <p>@error.ErrorMessage</p>
+                                }
+                            }
+                        </div>
+                    }
+                    <form asp-action="Login" method="post">
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">Kullanıcı Adı</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" name="username" class="form-control" placeholder="Kullanıcı adınızı giriniz" required />
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" name="password" class="form-control" placeholder="Şifrenizi giriniz" required />
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-100 mb-2">Giriş Yap</button>
+                            <a asp-action="Register" class="btn btn-outline-secondary w-100">Hesap Oluştur</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

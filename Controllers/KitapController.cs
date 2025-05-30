@@ -3,9 +3,11 @@ using Kutuphane.Data;
 using Kutuphane.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kutuphane.Controllers
 {
+    [Authorize]
     public class KitapController : Controller
     {
         private readonly KutuphaneDbContext _context;
@@ -74,28 +76,41 @@ namespace Kutuphane.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            // Model doğrulama hatalarını logla
+            if (!ModelState.IsValid)
             {
-                try
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                // Hata mesajlarını konsola yazdır
+                foreach (var error in errors)
                 {
-                    _context.Update(kitap);
-                    await _context.SaveChangesAsync();
+                    Console.WriteLine($"Validation Error: {error}");
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!KitapExists(kitap.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAdi");
+                return View(kitap);
             }
-            ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAdi");
-            return View(kitap);
+
+            try
+            {
+                _context.Update(kitap);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!KitapExists(kitap.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Kitap/Sil/5
@@ -118,16 +133,18 @@ namespace Kutuphane.Controllers
         }
 
         // POST: Kitap/Sil/5
-        [HttpPost, ActionName("Sil")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SilOnayla(int id)
+        public async Task<IActionResult> Sil(int id)
         {
             var kitap = await _context.Kitaplar.FindAsync(id);
-            if (kitap != null)
+            if (kitap == null)
             {
-                _context.Kitaplar.Remove(kitap);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
+
+            _context.Kitaplar.Remove(kitap);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

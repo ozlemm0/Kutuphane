@@ -4,9 +4,11 @@ using Kutuphane.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kutuphane.Controllers
 {
+    [Authorize]
     public class OduncController : Controller
     {
         private readonly KutuphaneDbContext _context;

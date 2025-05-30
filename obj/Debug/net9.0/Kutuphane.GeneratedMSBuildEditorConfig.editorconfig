@@ -17,117 +17,137 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Kutuphane
 build_property.RootNamespace = Kutuphane
-build_property.ProjectDir = C:\Users\ozlem222\Desktop\mvc\Kutuphane\
+build_property.ProjectDir = C:\Users\User\Desktop\mvc\Kutuphane-2\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\ozlem222\Desktop\mvc\Kutuphane
+build_property.MSBuildProjectDirectory = C:\Users\User\Desktop\mvc\Kutuphane-2
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 9.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Home/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Home/Privacy.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kategori/Ekle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kategori/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0ZWdvcmlcRWtsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kategori/Guncelle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kategori/Guncelle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0ZWdvcmlcR3VuY2VsbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kategori/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kategori/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0ZWdvcmlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kitap/Ekle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kategori/Sil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2F0ZWdvcmlcU2lsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kitap/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0YXBcRWtsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kitap/Guncelle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kitap/Guncelle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0YXBcR3VuY2VsbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kitap/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kitap/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0YXBcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Kitap/Sil.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Kitap/Sil.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcS2l0YXBcU2lsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Odunc/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Odunc/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2R1bmNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Odunc/KitapAra.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Odunc/KitapAra.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2R1bmNcS2l0YXBBcmEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Odunc/TeslimAl.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Odunc/TeslimAl.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2R1bmNcVGVzbGltQWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Odunc/Ver.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Odunc/Ver.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2R1bmNcVmVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Ogrenci/Ekle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Ogrenci/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxFa2xlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Ogrenci/Guncelle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Ogrenci/Guncelle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxHdW5jZWxsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Ogrenci/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Ogrenci/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Ogrenci/Sil.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Ogrenci/Sil.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2dyZW5jaVxTaWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Rapor/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Rapor/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFwb3JcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Shared/Error.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Sinif/Ekle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Sinif/Ekle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaWZcRWtsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Sinif/Guncelle.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Sinif/Guncelle.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaWZcR3VuY2VsbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Sinif/Index.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Sinif/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2luaWZcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/_ViewImports.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/User/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/User/ManageUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxNYW5hZ2VVc2Vycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/User/Profil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxQcm9maWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/User/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/_ViewStart.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/ozlem222/Desktop/mvc/Kutuphane/Views/Shared/_Layout.cshtml]
+[C:/Users/User/Desktop/mvc/Kutuphane-2/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-1jrfp4dvkc

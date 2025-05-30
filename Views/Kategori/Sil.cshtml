@@ -1,7 +1,7 @@
-@model Kutuphane.Models.Kitap
+@model Kutuphane.Models.Kategori
 
 @{
-    ViewData["Title"] = "Kitap Silme Onayı";
+    ViewData["Title"] = "Kategori Sil";
 }
 
 <div class="container mt-5">
@@ -9,17 +9,15 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-header bg-danger text-white">
-                    <h2 class="text-center mb-0">Kitap Silme Onayı</h2>
+                    <h2 class="text-center mb-0">Kategori Silme Onayı</h2>
                 </div>
                 <div class="card-body">
-                    <h4 class="text-center mb-4">Bu kitabı silmek istediğinizden emin misiniz?</h4>
+                    <h4 class="text-center mb-4">Bu kategoriyi silmek istediğinizden emin misiniz?</h4>
                     
                     <div class="alert alert-warning">
-                        <strong>Kitap Bilgileri:</strong>
-                        <p>Kitap Adı: @Model.KitapAdi</p>
-                        <p>Yazar: @Model.Yazar</p>
-                        <p>Yayınevi: @Model.Yayinevi</p>
-                        <p>Kategori: @Model.Kategori?.KategoriAdi</p>
+                        <strong>Kategori Bilgileri:</strong>
+                        <p>Kategori Adı: @Model.KategoriAdi</p>
+                        <p>Açıklama: @Model.Aciklama</p>
                     </div>
                     
                     <form asp-action="Sil" method="post">

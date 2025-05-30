@@ -3,9 +3,11 @@ using Kutuphane.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kutuphane.Controllers
 {
+    [Authorize]
     public class RaporController : Controller
     {
         private readonly KutuphaneDbContext _context;

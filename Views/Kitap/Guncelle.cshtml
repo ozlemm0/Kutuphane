@@ -4,42 +4,76 @@
     ViewData["Title"] = "Kitap Güncelle";
 }
 
-<h1>Kitap Güncelle</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Kitap Bilgilerini Güncelle</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Guncelle" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Guncelle">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="KitapAdi" class="control-label"></label>
-                <input asp-for="KitapAdi" class="form-control" />
-                <span asp-validation-for="KitapAdi" class="text-danger"></span>
+                        <div class="form-group mb-3">
+                            <label asp-for="KitapAdi" class="form-label">Kitap Adı</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-book"></i></span>
+                                <input asp-for="KitapAdi" class="form-control" placeholder="Kitap adını giriniz" />
+                            </div>
+                            <span asp-validation-for="KitapAdi" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Yazar" class="form-label">Yazar</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-lines-fill"></i></span>
+                                <input asp-for="Yazar" class="form-control" placeholder="Yazarın adını giriniz" />
+                            </div>
+                            <span asp-validation-for="Yazar" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Yayinevi" class="form-label">Yayınevi</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-building"></i></span>
+                                <input asp-for="Yayinevi" class="form-control" placeholder="Yayınevini giriniz" />
+                            </div>
+                            <span asp-validation-for="Yayinevi" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ISBN" class="form-label">ISBN</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-upc"></i></span>
+                                <input asp-for="ISBN" class="form-control" placeholder="ISBN numarasını giriniz" />
+                            </div>
+                            <span asp-validation-for="ISBN" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="KategoriId" class="form-label">Kategori</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-tags"></i></span>
+                                <select asp-for="KategoriId" class="form-select" asp-items="ViewBag.Kategoriler">
+                                    <option value="">Kategori Seçiniz</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="KategoriId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-100 mb-2">Güncelle</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary w-100">İptal</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Yazar" class="control-label"></label>
-                <input asp-for="Yazar" class="form-control" />
-                <span asp-validation-for="Yazar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Yayinevi" class="control-label"></label>
-                <input asp-for="Yayinevi" class="form-control" />
-                <span asp-validation-for="Yayinevi" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="KategoriId" class="control-label"></label>
-                <select asp-for="KategoriId" class="form-control" asp-items="ViewBag.Kategoriler"></select>
-                <span asp-validation-for="KategoriId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Güncelle" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} 
+}

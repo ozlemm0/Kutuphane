@@ -1,0 +1,75 @@
+@model Kutuphane.Models.User
+
+@{
+    ViewData["Title"] = "Yeni Hesap Oluştur";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">Kütüphane Hesap Kayıt</h2>
+                </div>
+                <div class="card-body">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var modelState in ViewData.ModelState.Values)
+                            {
+                                @foreach (var error in modelState.Errors)
+                                {
+                                    <p>@error.ErrorMessage</p>
+                                }
+                            }
+                        </div>
+                    }
+                    <form asp-action="Register" method="post">
+                        <div class="form-group mb-3">
+                            <label asp-for="Username" class="form-label">Kullanıcı Adı</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input asp-for="Username" class="form-control" placeholder="Kullanıcı adınızı seçiniz" required />
+                            </div>
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label">E-posta Adresi</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="E-posta adresinizi giriniz" required />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label">Ad</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                <input asp-for="Name" class="form-control" placeholder="Adınızı giriniz" />
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Surname" class="form-label">Soyad</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
+                                <input asp-for="Surname" class="form-control" placeholder="Soyadınızı giriniz" />
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="Password" class="form-label">Şifre</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input asp-for="Password" type="password" class="form-control" placeholder="Şifrenizi oluşturunuz" required />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary w-100 mb-2">Hesap Oluştur</button>
+                            <a asp-action="Login" class="btn btn-outline-secondary w-100">Zaten hesabınız var mı? Giriş Yapın</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

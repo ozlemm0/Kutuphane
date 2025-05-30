@@ -18,6 +18,7 @@ namespace Kutuphane.Data
         public DbSet<Kitap> Kitaplar { get; set; }
         public DbSet<OduncKitap> OduncKitaplar { get; set; }
         public DbSet<KitapOduncİslemleri> kitapOduncİslemleris {get;set;}
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         }

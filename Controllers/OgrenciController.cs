@@ -3,10 +3,11 @@ using Kutuphane.Data; // Adjust namespace based on your project structure
 using Kutuphane.Models; // Adjust namespace based on your models
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kutuphane.Controllers
 {
+    [Authorize]
     public class OgrenciController : Controller
     {
         private readonly KutuphaneDbContext _context;
@@ -74,24 +75,38 @@ namespace Kutuphane.Controllers
 
 
         [HttpGet]
+        public async Task<IActionResult> Sil(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ogrenci = await _context.Ogrenciler
+                .Include(o => o.Sinif)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            
+            if (ogrenci == null)
+            {
+                return NotFound();
+            }
+
+            return View(ogrenci);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Sil(int id)
         {
             var ogrenci = await _context.Ogrenciler.FindAsync(id);
-            if (ogrenci == null) return NotFound();
+            if (ogrenci == null)
+            {
+                return NotFound();
+            }
 
-            return View(ogrenci); // Silmeden önce kullanıcıya doğrulama için nesneyi gösterir
-        }
-
-        [HttpPost, ActionName("Sil")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SilOnayla(int id)
-        {
-            var ogrenci = await _context.Ogrenciler.FindAsync(id);
-            if (ogrenci == null) return NotFound();
-
-            _context.Ogrenciler.Remove(ogrenci); // Nesneyi sil
+            _context.Ogrenciler.Remove(ogrenci);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index"); // Ana listeye yönlendir
+            return RedirectToAction(nameof(Index));
         }
     }
 

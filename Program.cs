@@ -1,5 +1,6 @@
 using Kutuphane.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,13 @@ builder.Services.AddDbContext<KutuphaneDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/User/Login";
+        options.AccessDeniedPath = "/User/Login";
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);
+    });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +30,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

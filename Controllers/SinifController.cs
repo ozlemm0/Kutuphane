@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Kutuphane.Models;
 using Kutuphane.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Kutuphane.Controllers;
-
+[Authorize]
 public class SinifController : Controller
 {
     private readonly KutuphaneDbContext _context;
