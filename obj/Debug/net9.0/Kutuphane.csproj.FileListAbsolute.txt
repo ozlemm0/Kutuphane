@@ -1032,8 +1032,6 @@ C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\Kutuphane.sourcelink.json
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\scopedcss\bundle\Kutuphane.styles.css
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\scopedcss\projectbundle\Kutuphane.bundle.scp.css
-C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\4ugwdqjqvz-uah62pxhib.gz
-C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\vektm0q3sm-925vklzirn.gz
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\c5dd2oh8c9-b9sayid5wm.gz
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\6lnjfobtbh-61n19gt1b8.gz
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\1bbxtuljdi-vjozlp7yjf.gz
@@ -1113,3 +1111,5 @@ C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\refint\Kutuphane.dll
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\Kutuphane.pdb
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\Kutuphane.genruntimeconfig.cache
 C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\ref\Kutuphane.dll
+C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\4ugwdqjqvz-op5acuo76n.gz
+C:\Users\User\Desktop\MVCC\Kutuphane\obj\Debug\net9.0\compressed\vektm0q3sm-jq36cjtpg6.gz

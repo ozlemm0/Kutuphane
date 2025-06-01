@@ -1,22 +1,121 @@
+/* Layout Styles */
 body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     overflow-x: hidden;
 }
 
+/* Header Styles */
+header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 250px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+header.expanded {
+    left: 0;
+}
+
+/* Sidebar Styles */
 .sidebar {
     position: fixed;
     top: 0;
-    bottom: 0;
-    left: -250px;
+    left: 0;
+    height: 100vh;
     width: 250px;
-    background-color: #f8f9fa;
-    transition: left 0.3s ease;
-    z-index: 1050;
-    padding-top: 60px;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    background: white;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    z-index: 1001;
+    transition: all 0.3s ease;
 }
 
-.sidebar.show {
-    left: 0;
+.sidebar.collapsed {
+    transform: translateX(-250px);
+}
+
+.sidebar-header {
+    padding: 1.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid #e3e6f0;
+}
+
+.sidebar-header i {
+    font-size: 1.5rem;
+}
+
+.sidebar-header span {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.sidebar-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    padding: 0;
+    font-size: 1.2rem;
+}
+
+.sidebar-toggle:hover {
+    color: var(--primary-color);
+}
+
+/* Main Content Styles */
+.main-content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.main-content.expanded {
+    margin-left: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        left: 0;
+    }
+    
+    .sidebar {
+        transform: translateX(-250px);
+    }
+    
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+    
+    .sidebar-overlay.show {
+        display: block;
+    }
 }
 
 .sidebar-overlay {
@@ -26,7 +125,7 @@ body {
     right: 0;
     bottom: 0;
     background-color: rgba(0,0,0,0.5);
-    z-index: 1040;
+    z-index: 999;
     display: none;
 }
 
@@ -34,16 +133,8 @@ body {
     display: block;
 }
 
-.main-content {
-    transition: margin-left 0.3s ease;
-}
-
-.main-content.shifted {
-    margin-left: 250px;
-}
-
 @media (max-width: 992px) {
-    .main-content.shifted {
+    .main-content.expanded {
         margin-left: 0;
     }
 } 

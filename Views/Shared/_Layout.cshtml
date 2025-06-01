@@ -17,6 +17,10 @@
 </head>
 <body>
     <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-book text-primary"></i>
+            <span>Kütüphane</span>
+        </div>
         <nav class="nav flex-column">
             <a class="nav-link" href="@Url.Action("Index", "Home")">
                 <i class="bi bi-house me-2"></i>Ana Sayfa
@@ -75,9 +79,17 @@
         </nav>
     </header>
 
+    <div class="container-fluid main-content" id="main-content">
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <p class="mb-0">Özlem Demir 222</p>
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -88,17 +100,41 @@
             const sidebar = document.getElementById('sidebar');
             const sidebarOverlay = document.getElementById('sidebar-overlay');
             const mainContent = document.getElementById('main-content');
+            const header = document.querySelector('header');
 
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('show');
-                sidebarOverlay.classList.toggle('show');
-                mainContent.classList.toggle('shifted');
+            function toggleSidebar() {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+                header.classList.toggle('expanded');
+                
+                // Sadece mobil görünümde overlay'i göster
+                if (window.innerWidth <= 768) {
+                    sidebarOverlay.classList.toggle('show');
+                }
+            }
+
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            sidebarOverlay.addEventListener('click', toggleSidebar);
+
+            // Sayfa yüklendiğinde sidebar durumunu localStorage'dan al
+            const sidebarState = localStorage.getItem('sidebarState');
+            if (sidebarState === 'collapsed') {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+                header.classList.add('expanded');
+            }
+
+            // Sidebar durumunu localStorage'a kaydet
+            sidebar.addEventListener('transitionend', function() {
+                const isCollapsed = sidebar.classList.contains('collapsed');
+                localStorage.setItem('sidebarState', isCollapsed ? 'collapsed' : 'expanded');
             });
 
-            sidebarOverlay.addEventListener('click', function() {
-                sidebar.classList.remove('show');
-                sidebarOverlay.classList.remove('show');
-                mainContent.classList.remove('shifted');
+            // Pencere boyutu değiştiğinde kontrol et
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebarOverlay.classList.remove('show');
+                }
             });
         });
     </script>
