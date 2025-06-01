@@ -1,0 +1,65 @@
+@model List<Kutuphane.Models.ViewModels.KitapOkunmaViewModel>
+
+@{
+    ViewData["Title"] = "En Çok Okunan Kitaplar";
+}
+
+<div class="container-fluid">
+    <h2 class="mb-4">En Çok Okunan Kitaplar</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Filtreleme Seçenekleri</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Sınıf</label>
+                    <select name="sinifId" class="form-select" asp-items="ViewBag.Siniflar">
+                        <option value="">Tüm Sınıflar</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Başlangıç Tarihi</label>
+                    <input type="date" name="baslangicTarihi" class="form-control" value="@ViewBag.BaslangicTarihi?.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Bitiş Tarihi</label>
+                    <input type="date" name="bitisTarihi" class="form-control" value="@ViewBag.BitisTarihi?.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filtrele</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Kitap Adı</th>
+                            <th>Yazar</th>
+                            <th>Okunma Sayısı</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            var kitap = Model[i];
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>@kitap.KitapAdi</td>
+                                <td>@kitap.Yazar</td>
+                                <td>@kitap.OkunmaSayisi</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 
