@@ -1,23 +1,40 @@
-@model Sinif
+@model Kutuphane.Models.Sinif
 
 @{
-    ViewData["Title"] = "Sınıf Güncelle";
+    ViewData["Title"] = "Sınıf Düzenle";
 }
 
-<h2>Sınıf Güncelle</h2>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Sınıf Düzenle</h1>
 
-<form asp-action="Guncelle" method="post">
-    <div class="form-group">
-        <label asp-for="SinifAdi" class="control-label"></label>
-        <input asp-for="SinifAdi" class="form-control" />
-        <span asp-validation-for="SinifAdi" class="text-danger"></span>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Sınıf Bilgileri</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="Guncelle">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="form-group">
+                    <label asp-for="SinifAdi" class="control-label">Sınıf Adı</label>
+                    <input asp-for="SinifAdi" class="form-control" />
+                    <span asp-validation-for="SinifAdi" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Listeye Dön
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-primary">Güncelle</button>
-</form>
-
-<a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+</div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

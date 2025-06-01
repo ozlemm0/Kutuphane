@@ -62,7 +62,7 @@ namespace Kutuphane.Controllers
                 return NotFound();
             }
 
-            ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAdi");
+            ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.Where(k => k.AktifMi).ToListAsync(), "Id", "KategoriAdi");
             return View(kitap);
         }
 
@@ -76,41 +76,30 @@ namespace Kutuphane.Controllers
                 return NotFound();
             }
 
-            // Model doğrulama hatalarını logla
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var errors = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .ToList();
-
-                // Hata mesajlarını konsola yazdır
-                foreach (var error in errors)
+                try
                 {
-                    Console.WriteLine($"Validation Error: {error}");
+                    kitap.AktifMi = true;
+                    _context.Update(kitap);
+                    await _context.SaveChangesAsync();
+                    TempData["Basarili"] = "Kitap başarıyla güncellendi.";
+                    return RedirectToAction(nameof(Index));
                 }
-
-                ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAdi");
-                return View(kitap);
-            }
-
-            try
-            {
-                _context.Update(kitap);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!KitapExists(kitap.Id))
+                catch (DbUpdateConcurrencyException)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    if (!KitapExists(kitap.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
-            return RedirectToAction(nameof(Index));
+            ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.Where(k => k.AktifMi).ToListAsync(), "Id", "KategoriAdi");
+            return View(kitap);
         }
 
         // GET: Kitap/Sil/5
@@ -123,7 +112,9 @@ namespace Kutuphane.Controllers
 
             var kitap = await _context.Kitaplar
                 .Include(k => k.Kategori)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(k => k.OduncKitaplar)
+                .FirstOrDefaultAsync(m => m.Id == id && m.AktifMi);
+            
             if (kitap == null)
             {
                 return NotFound();
@@ -133,18 +124,31 @@ namespace Kutuphane.Controllers
         }
 
         // POST: Kitap/Sil/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Sil(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kitap = await _context.Kitaplar.FindAsync(id);
+            var kitap = await _context.Kitaplar
+                .Include(k => k.OduncKitaplar)
+                .FirstOrDefaultAsync(k => k.Id == id);
+
             if (kitap == null)
             {
                 return NotFound();
             }
 
-            _context.Kitaplar.Remove(kitap);
+            // Kitabın teslim edilmemiş ödünç kayıtları var mı kontrol et
+            var teslimEdilmemisKayit = kitap.OduncKitaplar.Any(o => !o.TeslimDurumu);
+            if (teslimEdilmemisKayit)
+            {
+                TempData["Hata"] = "Bu kitabın teslim edilmemiş ödünç kayıtları var. Önce kitapları teslim alın.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Kitabı silmek yerine aktif durumunu false yap
+            kitap.AktifMi = false;
             await _context.SaveChangesAsync();
+            TempData["Basarili"] = "Kitap başarıyla silindi.";
             return RedirectToAction(nameof(Index));
         }
 

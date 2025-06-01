@@ -21,60 +21,101 @@ namespace Kutuphane.Controllers
         public async Task<IActionResult> Index()
         {
             var ogrenciler = await _context.Ogrenciler
-            .Include(o => o.Sinif) // Sinif navigasyonunu doldur
-            .ToListAsync();
+                .Include(o => o.Sinif)
+                .Where(o => o.AktifMi)
+                .OrderBy(o => o.OgrenciAdi)
+                .ThenBy(o => o.OgrenciSoyadi)
+                .ToListAsync();
             return View(ogrenciler);
         }
 
+        // GET: Ogrenci/Create
         public async Task<IActionResult> Ekle()
         {
-            ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi");
+            ViewBag.Siniflar = new SelectList(await _context.Siniflar.Where(s => s.AktifMi).ToListAsync(), "Id", "SinifAdi");
             return View();
         }
+
         // POST: Ogrenci/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Ekle(Ogrenci ogrenci)
         {
-             if (ModelState.IsValid)
+            try
             {
-                _context.Ogrenciler.Add(ogrenci);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    ogrenci.AktifMi = true;
+                    ogrenci.EklenmeTarihi = DateTime.Now;
+                    _context.Ogrenciler.Add(ogrenci);
+                    await _context.SaveChangesAsync();
+                    TempData["Basarili"] = "Öğrenci başarıyla eklendi.";
+                    return RedirectToAction(nameof(Index));
+                }
             }
-           ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi");
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Öğrenci eklenirken bir hata oluştu: " + ex.Message);
+            }
+
+            ViewBag.Siniflar = new SelectList(await _context.Siniflar.Where(s => s.AktifMi).ToListAsync(), "Id", "SinifAdi");
             return View(ogrenci);
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> Guncelle(int id)
+        // GET: Ogrenci/Edit/5
+        public async Task<IActionResult> Guncelle(int? id)
         {
-            var ogrenci = await _context.Ogrenciler.FindAsync(id);
-            if (ogrenci == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi");
+            var ogrenci = await _context.Ogrenciler.FindAsync(id);
+            if (ogrenci == null || !ogrenci.AktifMi)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Siniflar = new SelectList(await _context.Siniflar.Where(s => s.AktifMi).ToListAsync(), "Id", "SinifAdi");
             return View(ogrenci);
         }
 
-
+        // POST: Ogrenci/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Guncelle(Ogrenci ogrenci)
+        public async Task<IActionResult> Guncelle(int id, Ogrenci ogrenci)
         {
-            if (!ModelState.IsValid)
+            if (id != ogrenci.Id)
             {
-                ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi");
-                return View(ogrenci);
+                return NotFound();
             }
 
-            _context.Update(ogrenci);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    ogrenci.AktifMi = true;
+                    _context.Update(ogrenci);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!OgrenciExists(ogrenci.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            ViewBag.Siniflar = new SelectList(await _context.Siniflar.Where(s => s.AktifMi).ToListAsync(), "Id", "SinifAdi");
+            return View(ogrenci);
         }
 
-
-        [HttpGet]
+        // GET: Ogrenci/Delete/5
         public async Task<IActionResult> Sil(int? id)
         {
             if (id == null)
@@ -84,7 +125,8 @@ namespace Kutuphane.Controllers
 
             var ogrenci = await _context.Ogrenciler
                 .Include(o => o.Sinif)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(o => o.OduncKitaplar)
+                .FirstOrDefaultAsync(m => m.Id == id && m.AktifMi);
             
             if (ogrenci == null)
             {
@@ -94,22 +136,37 @@ namespace Kutuphane.Controllers
             return View(ogrenci);
         }
 
-        [HttpPost]
+        // POST: Ogrenci/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Sil(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ogrenci = await _context.Ogrenciler.FindAsync(id);
+            var ogrenci = await _context.Ogrenciler
+                .Include(o => o.OduncKitaplar)
+                .FirstOrDefaultAsync(o => o.Id == id);
+
             if (ogrenci == null)
             {
                 return NotFound();
             }
 
-            _context.Ogrenciler.Remove(ogrenci);
+            // Öğrencinin teslim edilmemiş kitapları var mı kontrol et
+            var teslimEdilmemisKitap = ogrenci.OduncKitaplar.Any(o => !o.TeslimDurumu);
+            if (teslimEdilmemisKitap)
+            {
+                TempData["Hata"] = "Bu öğrencinin teslim etmediği kitaplar var. Önce kitapları teslim alın.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Öğrenciyi silmek yerine aktif durumunu false yap
+            ogrenci.AktifMi = false;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-    }
 
-   
-    
+        private bool OgrenciExists(int id)
+        {
+            return _context.Ogrenciler.Any(e => e.Id == id);
+        }
+    }
 }

@@ -21,9 +21,7 @@ public class HomeController : Controller
         var teslimEdilmeyenKitaplar = await _context.OduncKitaplar
             .Include(o => o.Kitap)
             .Include(o => o.Ogrenci)
-            .Where(o =>
-                o.OduncAlmaTarihi.AddDays(7) < DateTime.Now && // 7 gün geçti
-                o.TeslimDurumu == false)                       // hâlâ teslim edilmedi
+            .Where(o => !o.TeslimDurumu && o.OduncAlmaTarihi.AddDays(7) < DateTime.Now)
             .Select(o => new KitapOduncİslemleri
             {
                 OgrenciAdi = o.Ogrenci != null
@@ -48,7 +46,6 @@ public class HomeController : Controller
 
         return View(teslimEdilmeyenKitaplar);
     }
-
 
     public IActionResult Privacy()
     {

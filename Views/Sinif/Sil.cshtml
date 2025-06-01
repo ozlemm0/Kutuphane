@@ -1,0 +1,42 @@
+@model Kutuphane.Models.Sinif
+
+@{
+    ViewData["Title"] = "Sınıf Sil";
+}
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Sınıf Sil</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-danger">Sınıf Silme Onayı</h6>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                <h5>Bu sınıfı silmek istediğinizden emin misiniz?</h5>
+                <p>Bu işlem geri alınamaz ve sınıfa ait tüm öğrenciler etkilenecektir.</p>
+            </div>
+
+            <dl class="row">
+                <dt class="col-sm-2">Sınıf Adı</dt>
+                <dd class="col-sm-10">@Model.SinifAdi</dd>
+
+                @if (Model.Ogrenciler != null && Model.Ogrenciler.Any())
+                {
+                    <dt class="col-sm-2">Öğrenci Sayısı</dt>
+                    <dd class="col-sm-10">@Model.Ogrenciler.Count</dd>
+                }
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Sil
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Listeye Dön
+                </a>
+            </form>
+        </div>
+    </div>
+</div> 

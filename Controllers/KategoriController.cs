@@ -19,7 +19,11 @@ namespace Kutuphane.Controllers
         // GET: Kategori
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Kategoriler.ToListAsync());
+            var kategoriler = await _context.Kategoriler
+                .Where(k => k.AktifMi)
+                .OrderBy(k => k.KategoriAdi)
+                .ToListAsync();
+            return View(kategoriler);
         }
 
         // GET: Kategori/Ekle
@@ -100,7 +104,9 @@ namespace Kutuphane.Controllers
             }
 
             var kategori = await _context.Kategoriler
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(k => k.Kitaplar)
+                .FirstOrDefaultAsync(m => m.Id == id && m.AktifMi);
+            
             if (kategori == null)
             {
                 return NotFound();
@@ -110,16 +116,31 @@ namespace Kutuphane.Controllers
         }
 
         // POST: Kategori/Sil/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Sil(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var kategori = await _context.Kategoriler.FindAsync(id);
-            if (kategori != null)
+            var kategori = await _context.Kategoriler
+                .Include(k => k.Kitaplar)
+                .FirstOrDefaultAsync(k => k.Id == id);
+
+            if (kategori == null)
             {
-                _context.Kategoriler.Remove(kategori);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
+
+            // Kategoride aktif kitaplar var mı kontrol et
+            var aktifKitapVarMi = kategori.Kitaplar.Any(k => k.AktifMi);
+            if (aktifKitapVarMi)
+            {
+                TempData["Hata"] = "Bu kategoride aktif kitaplar var. Önce kitapları başka bir kategoriye taşıyın.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Kategoriyi silmek yerine aktif durumunu false yap
+            kategori.AktifMi = false;
+            await _context.SaveChangesAsync();
+            TempData["Basarili"] = "Kategori başarıyla silindi.";
             return RedirectToAction(nameof(Index));
         }
 

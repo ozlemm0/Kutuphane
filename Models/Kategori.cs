@@ -12,5 +12,7 @@ namespace Kutuphane.Models
         public string? Aciklama { get; set; }
 
         public ICollection<Kitap>? Kitaplar { get; set; }
+
+        public bool AktifMi { get; set; } = true;
     }
 } 

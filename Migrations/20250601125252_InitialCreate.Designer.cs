@@ -3,6 +3,7 @@ using System;
 using Kutuphane.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kutuphane.Migrations
 {
     [DbContext(typeof(KutuphaneDbContext))]
-    partial class KutuphaneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250601125252_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -166,7 +169,7 @@ namespace Kutuphane.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SinifId")
+                    b.Property<int?>("SinifId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -270,9 +273,7 @@ namespace Kutuphane.Migrations
                 {
                     b.HasOne("Kutuphane.Models.Sinif", "Sinif")
                         .WithMany("Ogrenciler")
-                        .HasForeignKey("SinifId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SinifId");
 
                     b.Navigation("Sinif");
                 });

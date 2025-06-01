@@ -1,30 +1,59 @@
-@model Ogrenci
+@model Kutuphane.Models.Ogrenci
 
-<h2>Öğrenci Ekle</h2>
+@{
+    ViewData["Title"] = "Yeni Öğrenci Ekle";
+}
 
-<form asp-action="Ekle" method="post">
-    <div class="form-group my-2">
-        <label asp-for="OgrenciAdi" class="control-label"></label>
-        <input asp-for="OgrenciAdi" class="form-control" />
-        <span asp-validation-for="OgrenciAdi" class="text-danger"></span>
-    </div>
-    <div class="form-group my-2">
-        <label asp-for="OgrenciSoyadi" class="control-label"></label>
-        <input asp-for="OgrenciSoyadi" class="form-control" />
-        <span asp-validation-for="OgrenciSoyadi" class="text-danger"></span>
-    </div>
-    <div class="form-group my-2">
-        <label asp-for="OkulNumarasi" class="control-label"></label>
-        <input asp-for="OkulNumarasi" class="form-control" />
-        <span asp-validation-for="OkulNumarasi" class="text-danger"></span>
-    </div>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Yeni Öğrenci Ekle</h1>
 
-    <div class="form-group">
-        <label asp-for="SinifId" class="control-label"></label>
-        <select class="form-control" asp-for="SinifId" asp-items="@(ViewBag.Siniflar)">
-            <option value="0">Bir Sınıf Seç</option>
-        </select>
-        <span asp-validation-for="SinifId" class="text-danger"></span>
-    </div><br>
-    <button type="submit" class="btn btn-primary">Ekle</button>
-</form>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Öğrenci Bilgileri</h6>
+        </div>
+        <div class="card-body">
+            <form asp-action="Ekle">
+                <div asp-validation-summary="All" class="alert alert-danger"></div>
+                
+                <div class="form-group">
+                    <label asp-for="OgrenciAdi" class="control-label">Adı</label>
+                    <input asp-for="OgrenciAdi" class="form-control" />
+                    <span asp-validation-for="OgrenciAdi" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="OgrenciSoyadi" class="control-label">Soyadı</label>
+                    <input asp-for="OgrenciSoyadi" class="form-control" />
+                    <span asp-validation-for="OgrenciSoyadi" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="OkulNumarasi" class="control-label">Okul Numarası</label>
+                    <input asp-for="OkulNumarasi" class="form-control" />
+                    <span asp-validation-for="OkulNumarasi" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SinifId" class="control-label">Sınıf</label>
+                    <select asp-for="SinifId" class="form-control" asp-items="ViewBag.Siniflar">
+                        <option value="">Sınıf Seçiniz</option>
+                    </select>
+                    <span asp-validation-for="SinifId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Listeye Dön
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

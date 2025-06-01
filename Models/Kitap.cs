@@ -4,6 +4,11 @@ namespace Kutuphane.Models
 {
     public class Kitap
     {
+        public Kitap()
+        {
+            OduncKitaplar = new List<OduncKitap>();
+        }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Kitap adı zorunludur.")]
@@ -18,10 +23,14 @@ namespace Kutuphane.Models
         [Required(ErrorMessage = "ISBN numarası zorunludur.")]
         public string ISBN { get; set; } = string.Empty;
 
-        public int? KategoriId { get; set; }
+        [Required(ErrorMessage = "Kategori seçimi zorunludur.")]
+        public int KategoriId { get; set; }
         public Kategori? Kategori { get; set; }
 
         public bool OduncVerildiMi { get; set; } = false;
         public DateTime EklenmeTarihi { get; set; } = DateTime.Now;
+
+        public ICollection<OduncKitap> OduncKitaplar { get; set; }
+        public bool AktifMi { get; set; } = true;
     }
 } 

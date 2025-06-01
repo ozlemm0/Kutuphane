@@ -4,34 +4,48 @@
     ViewData["Title"] = "Kitap Silme Onayı";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-danger text-white">
-                    <h2 class="text-center mb-0">Kitap Silme Onayı</h2>
-                </div>
-                <div class="card-body">
-                    <h4 class="text-center mb-4">Bu kitabı silmek istediğinizden emin misiniz?</h4>
-                    
-                    <div class="alert alert-warning">
-                        <strong>Kitap Bilgileri:</strong>
-                        <p>Kitap Adı: @Model.KitapAdi</p>
-                        <p>Yazar: @Model.Yazar</p>
-                        <p>Yayınevi: @Model.Yayinevi</p>
-                        <p>Kategori: @Model.Kategori?.KategoriAdi</p>
-                    </div>
-                    
-                    <form asp-action="Sil" method="post">
-                        <input type="hidden" asp-for="Id" />
-                        @Html.AntiForgeryToken()
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-danger me-2">Evet, Sil</button>
-                            <a asp-action="Index" class="btn btn-secondary">İptal</a>
-                        </div>
-                    </form>
-                </div>
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Kitap Silme Onayı</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-danger">Kitap Silme Onayı</h6>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-warning">
+                <h5>Bu kitabı silmek istediğinizden emin misiniz?</h5>
+                <p>Bu işlem geri alınamaz ve kitaba ait tüm ödünç kayıtları etkilenecektir.</p>
             </div>
+
+            <dl class="row">
+                <dt class="col-sm-2">Kitap Adı</dt>
+                <dd class="col-sm-10">@Model.KitapAdi</dd>
+
+                <dt class="col-sm-2">Yazar</dt>
+                <dd class="col-sm-10">@Model.Yazar</dd>
+
+                <dt class="col-sm-2">Yayınevi</dt>
+                <dd class="col-sm-10">@Model.Yayinevi</dd>
+
+                <dt class="col-sm-2">Kategori</dt>
+                <dd class="col-sm-10">@Model.Kategori?.KategoriAdi</dd>
+
+                @if (Model.OduncKitaplar != null && Model.OduncKitaplar.Any())
+                {
+                    <dt class="col-sm-2">Ödünç Kayıt Sayısı</dt>
+                    <dd class="col-sm-10">@Model.OduncKitaplar.Count</dd>
+                }
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Sil
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Listeye Dön
+                </a>
+            </form>
         </div>
     </div>
 </div> 
