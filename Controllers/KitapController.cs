@@ -21,7 +21,7 @@ namespace Kutuphane.Controllers
         public async Task<IActionResult> Index()
         {
             var kitaplar = await _context.Kitaplar
-                                 .Include(k => k.Kategori) // Kategori'yi Include et
+                                 .Include(k => k.Kategori)
                                  .ToListAsync();
             return View(kitaplar);
         }

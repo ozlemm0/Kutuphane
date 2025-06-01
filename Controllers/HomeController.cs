@@ -17,34 +17,7 @@ public class HomeController : Controller
     }
     public async Task<IActionResult> Index()
     {
-        // 7 gün içinde teslim edilmeyen kitaplar
-        var teslimEdilmeyenKitaplar = await _context.OduncKitaplar
-            .Include(o => o.Kitap)
-            .Include(o => o.Ogrenci)
-            .Where(o => !o.TeslimDurumu && o.OduncAlmaTarihi.AddDays(7) < DateTime.Now)
-            .Select(o => new KitapOduncİslemleri
-            {
-                OgrenciAdi = o.Ogrenci != null
-                    ? o.Ogrenci.OgrenciAdi + " " + o.Ogrenci.OgrenciSoyadi
-                    : "Bilinmiyor",
-
-                KitapAdi = o.Kitap != null
-                    ? o.Kitap.KitapAdi
-                    : "Bilinmiyor",
-
-                AlinmaTarihi = o.OduncAlmaTarihi,
-
-                TeslimTarihi = o.OduncAlmaTarihi.AddDays(7), // Planlanan teslim süresi
-
-                GercekTeslimTarihi = o.TeslimDurumu
-                    ? o.TeslimTarihi
-                    : null,
-
-                OduncKitap = o
-            })
-            .ToListAsync();
-
-        return View(teslimEdilmeyenKitaplar);
+        return View();
     }
 
     public IActionResult Privacy()

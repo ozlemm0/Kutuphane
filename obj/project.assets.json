@@ -3117,11 +3117,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Desktop\\mvc\\Kutuphane-4\\Kutuphane.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\MVCC\\Kutuphane\\Kutuphane.csproj",
       "projectName": "Kutuphane",
-      "projectPath": "C:\\Users\\User\\Desktop\\mvc\\Kutuphane-4\\Kutuphane.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\MVCC\\Kutuphane\\Kutuphane.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Desktop\\mvc\\Kutuphane-4\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\MVCC\\Kutuphane\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"

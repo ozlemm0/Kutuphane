@@ -167,6 +167,7 @@ namespace Kutuphane.Controllers
 
             return View(enCokOkunanKitaplar);
         }
+
         public IActionResult GecikenKitaplar(int? sinifId)
         {
             // Sınıfları dropdown için ViewBag ile gönder
@@ -240,6 +241,7 @@ namespace Kutuphane.Controllers
 
             return View(model);
         }
+
         public IActionResult OgrencininKitaplari(int ogrenciId)
         {
             if (ogrenciId <= 0)
@@ -293,8 +295,9 @@ namespace Kutuphane.Controllers
             var ogrenciler = _context.OduncKitaplar
                 .Include(o => o.Ogrenci)
                     .ThenInclude(o => o.Sinif)
-                .Where(o => o.KitapId == kitapId)
+                .Where(o => o.KitapId == kitapId && o.Ogrenci.AktifMi)
                 .OrderByDescending(o => o.OduncAlmaTarihi)
+                .Distinct()
                 .ToList();
 
             ViewBag.KitapAdi = kitap.KitapAdi;
