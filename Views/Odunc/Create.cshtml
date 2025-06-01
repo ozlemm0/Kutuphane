@@ -1,0 +1,63 @@
+@model Kutuphane.Models.OduncKitap
+
+@{
+    ViewData["Title"] = "Yeni Ödünç Kaydı";
+}
+
+<div class="container">
+    <h1>Yeni Ödünç Kaydı</h1>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="KitapId" class="control-label">Kitap</label>
+                    <select asp-for="KitapId" class="form-select" asp-items="ViewBag.KitapId"></select>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="OgrenciId" class="control-label">Öğrenci</label>
+                    <select asp-for="OgrenciId" class="form-select" asp-items="ViewBag.OgrenciId"></select>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="OduncAlmaTarihi" class="control-label">Ödünç Alma Tarihi</label>
+                    <input asp-for="OduncAlmaTarihi" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="OduncAlmaTarihi" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <label asp-for="TeslimTarihi" class="control-label">Teslim Tarihi</label>
+                    <input asp-for="TeslimTarihi" class="form-control" type="date" value="@DateTime.Now.AddDays(14).ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="TeslimTarihi" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group mb-3">
+                    <div class="form-check">
+                        <input asp-for="TeslimDurumu" class="form-check-input" />
+                        <label asp-for="TeslimDurumu" class="form-check-label">Teslim Edildi</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                    <a asp-action="Index" class="btn btn-secondary">Listeye Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

@@ -11,7 +11,8 @@ namespace Kutuphane.Models
         [Required]
         public int KitapId { get; set; } 
 
-        public int? OgrenciId { get; set; }
+        [Required]
+        public int OgrenciId { get; set; }
 
         [Required]
         public DateTime OduncAlmaTarihi { get; set; }
