@@ -1,4 +1,4 @@
-@model IEnumerable<Kutuphane.Models.OduncKitap>
+@model IEnumerable<Kutuphane.Models.ViewModels.OgrenciKitapListesiViewModel>
 
 @{
     ViewData["Title"] = "Öğrencinin Okuduğu Kitaplar";
@@ -48,8 +48,8 @@
                         @foreach (var kitap in Model)
                         {
                             <tr>
-                                <td>@kitap.Kitap?.KitapAdi</td>
-                                <td>@kitap.Kitap?.Yazar</td>
+                                <td>@kitap.KitapAdi</td>
+                                <td>@kitap.Yazar</td>
                                 <td>@kitap.OduncAlmaTarihi.ToShortDateString()</td>
                                 <td>@(kitap.TeslimTarihi?.ToShortDateString() ?? "-")</td>
                                 <td>

@@ -4,6 +4,27 @@
     ViewData["Title"] = "Raporlar";
 }
 
+<style>
+    .card {
+        transition: transform 0.2s ease-in-out;
+        cursor: pointer;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .card-title {
+        margin-bottom: 0;
+        font-size: 1.1rem;
+    }
+</style>
+
 <div class="container mt-4">
     @if (TempData["Hata"] != null)
     {
@@ -86,24 +107,48 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <a href="@Url.Action("EnCokOkuyanOgrenciler", "Rapor")" class="btn btn-primary w-100 mb-3">
-                                <i class="bi bi-book me-2"></i>En Çok Kitap Okuyan Öğrenciler
-                            </a>
+                            <div class="card text-decoration-none mb-3">
+                                <a href="@Url.Action("EnCokOkuyanOgrenciler", "Rapor")" class="text-decoration-none">
+                                    <div class="card-body bg-primary text-white rounded">
+                                        <h5 class="card-title">
+                                            <i class="bi bi-book me-2"></i>En Çok Kitap Okuyan Öğrenciler
+                                        </h5>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <a href="@Url.Action("EnCokOkunanKitaplar", "Rapor")" class="btn btn-primary w-100 mb-3">
-                                <i class="bi bi-book me-2"></i>En Çok Okunan Kitaplar
-                            </a>
+                            <div class="card text-decoration-none mb-3">
+                                <a href="@Url.Action("EnCokOkunanKitaplar", "Rapor")" class="text-decoration-none">
+                                    <div class="card-body bg-success text-white rounded">
+                                        <h5 class="card-title">
+                                            <i class="bi bi-book me-2"></i>En Çok Okunan Kitaplar
+                                        </h5>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <a href="@Url.Action("GecikenKitaplar", "Rapor")" class="btn btn-primary w-100 mb-3">
-                                <i class="bi bi-exclamation-triangle me-2"></i>Geciken Kitaplar
-                            </a>
+                            <div class="card text-decoration-none mb-3">
+                                <a href="@Url.Action("GecikenKitaplar", "Rapor")" class="text-decoration-none">
+                                    <div class="card-body bg-warning text-white rounded">
+                                        <h5 class="card-title">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>Geciken Kitaplar
+                                        </h5>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <a href="@Url.Action("OduncVerilenKitaplar", "Rapor")" class="btn btn-primary w-100 mb-3">
-                                <i class="bi bi-book me-2"></i>Ödünç Verilen Kitaplar
-                            </a>
+                            <div class="card text-decoration-none mb-3">
+                                <a href="@Url.Action("OduncVerilenKitaplar", "Rapor")" class="text-decoration-none">
+                                    <div class="card-body bg-info text-white rounded">
+                                        <h5 class="card-title">
+                                            <i class="bi bi-book me-2"></i>Ödünç Verilen Kitaplar
+                                        </h5>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -122,11 +122,10 @@ namespace Kutuphane.Controllers
 
                 var ogrenciOkumaSayilari = await query
                     .GroupBy(o => new { o.OgrenciId, o.Ogrenci.OgrenciAdi, o.Ogrenci.OgrenciSoyadi, o.Ogrenci.Sinif.SinifAdi })
-                    .Select(g => new
+                    .Select(g => new OgrenciOkumaViewModel
                     {
                         OgrenciId = g.Key.OgrenciId,
-                        OgrenciAdi = g.Key.OgrenciAdi ?? "Bilinmiyor",
-                        OgrenciSoyadi = g.Key.OgrenciSoyadi ?? "Bilinmiyor",
+                        AdSoyad = (g.Key.OgrenciAdi ?? "Bilinmiyor") + " " + (g.Key.OgrenciSoyadi ?? "Bilinmiyor"),
                         SinifAdi = g.Key.SinifAdi ?? "Bilinmiyor",
                         OkumaSayisi = g.Count()
                     })
@@ -134,7 +133,7 @@ namespace Kutuphane.Controllers
                     .Take(10)
                     .ToListAsync();
 
-                ViewBag.Siniflar = await _context.Siniflar.ToListAsync();
+                ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi", sinifId);
                 ViewBag.SecilenSinifId = sinifId;
                 ViewBag.BaslangicTarihi = baslangicTarihi;
                 ViewBag.BitisTarihi = bitisTarihi;
@@ -149,18 +148,25 @@ namespace Kutuphane.Controllers
             }
         }
 
-        public async Task<IActionResult> EnCokOkunanKitaplar(int? kategoriId = null, DateTime? baslangicTarihi = null, DateTime? bitisTarihi = null)
+        public async Task<IActionResult> EnCokOkunanKitaplar(int? kategoriId = null, int? sinifId = null, DateTime? baslangicTarihi = null, DateTime? bitisTarihi = null)
         {
             try
             {
                 var query = _context.OduncKitaplar
                     .Include(o => o.Kitap)
                         .ThenInclude(k => k.Kategori)
+                    .Include(o => o.Ogrenci)
+                        .ThenInclude(o => o.Sinif)
                     .Where(o => o.TeslimDurumu);
 
                 if (kategoriId.HasValue && kategoriId.Value > 0)
                 {
                     query = query.Where(o => o.Kitap.KategoriId == kategoriId.Value);
+                }
+
+                if (sinifId.HasValue && sinifId.Value > 0)
+                {
+                    query = query.Where(o => o.Ogrenci.SinifId == sinifId.Value);
                 }
 
                 if (baslangicTarihi.HasValue)
@@ -174,20 +180,22 @@ namespace Kutuphane.Controllers
                 }
 
                 var kitapOkumaSayilari = await query
-                    .GroupBy(o => new { o.KitapId, o.Kitap.KitapAdi, o.Kitap.Kategori.KategoriAdi })
-                    .Select(g => new
+                    .GroupBy(o => new { o.KitapId, o.Kitap.KitapAdi, o.Kitap.Yazar })
+                    .Select(g => new KitapOkunmaViewModel
                     {
                         KitapId = g.Key.KitapId,
                         KitapAdi = g.Key.KitapAdi ?? "Bilinmiyor",
-                        KategoriAdi = g.Key.KategoriAdi ?? "Bilinmiyor",
+                        Yazar = g.Key.Yazar ?? "Bilinmiyor",
                         OkunmaSayisi = g.Count()
                     })
                     .OrderByDescending(x => x.OkunmaSayisi)
                     .Take(10)
                     .ToListAsync();
 
-                ViewBag.Kategoriler = await _context.Kategoriler.ToListAsync();
+                ViewBag.Kategoriler = new SelectList(await _context.Kategoriler.ToListAsync(), "Id", "KategoriAdi", kategoriId);
+                ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi", sinifId);
                 ViewBag.SecilenKategoriId = kategoriId;
+                ViewBag.SecilenSinifId = sinifId;
                 ViewBag.BaslangicTarihi = baslangicTarihi;
                 ViewBag.BitisTarihi = bitisTarihi;
 
@@ -201,34 +209,45 @@ namespace Kutuphane.Controllers
             }
         }
 
-        public async Task<IActionResult> GecikenKitaplar()
+        public async Task<IActionResult> GecikenKitaplar(int? sinifId = null)
         {
             try
             {
-                var gecikenKitaplar = await _context.OduncKitaplar
+                var query = _context.OduncKitaplar
                     .Include(o => o.Kitap)
                     .Include(o => o.Ogrenci)
                         .ThenInclude(o => o.Sinif)
-                    .Where(o => !o.TeslimDurumu && o.OduncAlmaTarihi.AddDays(14) < DateTime.Now)
-                    .Select(o => new
+                    .Where(o => !o.TeslimDurumu && o.OduncAlmaTarihi.AddDays(14) < DateTime.Now);
+
+                if (sinifId.HasValue && sinifId.Value > 0)
+                {
+                    query = query.Where(o => o.Ogrenci.SinifId == sinifId.Value);
+                }
+
+                var gecikenKitaplar = await query
+                    .Select(o => new GecikenKitapViewModel
                     {
-                        o.Id,
-                        KitapAdi = o.Kitap.KitapAdi ?? "Bilinmiyor",
-                        OgrenciAdi = o.Ogrenci.OgrenciAdi ?? "Bilinmiyor",
-                        OgrenciSoyadi = o.Ogrenci.OgrenciSoyadi ?? "Bilinmiyor",
-                        SinifAdi = o.Ogrenci.Sinif.SinifAdi ?? "Bilinmiyor",
-                        o.OduncAlmaTarihi,
+                        OgrenciId = o.OgrenciId,
+                        OgrenciAdi = o.Ogrenci != null ? o.Ogrenci.OgrenciAdi : "Bilinmiyor",
+                        OgrenciSoyadi = o.Ogrenci != null ? o.Ogrenci.OgrenciSoyadi : "Bilinmiyor",
+                        SinifAdi = o.Ogrenci != null && o.Ogrenci.Sinif != null ? o.Ogrenci.Sinif.SinifAdi : "Bilinmiyor",
+                        KitapId = o.KitapId,
+                        KitapAdi = o.Kitap != null ? o.Kitap.KitapAdi : "Bilinmiyor",
+                        OduncAlmaTarihi = o.OduncAlmaTarihi,
                         GecikmeGunu = (DateTime.Now - o.OduncAlmaTarihi).Days - 14
                     })
                     .OrderByDescending(x => x.GecikmeGunu)
                     .ToListAsync();
+
+                ViewBag.Siniflar = new SelectList(await _context.Siniflar.ToListAsync(), "Id", "SinifAdi", sinifId);
+                ViewBag.SecilenSinifId = sinifId;
 
                 return View(gecikenKitaplar);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Geciken kitaplar raporu oluşturulurken hata oluştu");
-                TempData["Error"] = "Rapor oluşturulurken bir hata oluştu.";
+                TempData["Error"] = "Rapor oluşturulurken bir hata oluştu: " + ex.Message;
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -344,6 +363,15 @@ namespace Kutuphane.Controllers
                     .Include(o => o.Kitap)
                     .Where(o => o.OgrenciId == ogrenciId)
                     .OrderByDescending(o => o.OduncAlmaTarihi)
+                    .Select(o => new OgrenciKitapListesiViewModel
+                    {
+                        KitapId = o.Kitap.Id,
+                        KitapAdi = o.Kitap.KitapAdi ?? "Bilinmiyor",
+                        Yazar = o.Kitap.Yazar ?? "Bilinmiyor",
+                        OduncAlmaTarihi = o.OduncAlmaTarihi,
+                        TeslimTarihi = o.TeslimTarihi,
+                        TeslimDurumu = o.TeslimDurumu
+                    })
                     .ToListAsync();
 
                 ViewBag.OgrenciAdiSoyadi = $"{ogrenci.OgrenciAdi} {ogrenci.OgrenciSoyadi}";

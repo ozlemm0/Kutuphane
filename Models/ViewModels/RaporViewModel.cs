@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Kutuphane.Models.ViewModels
@@ -11,14 +12,6 @@ namespace Kutuphane.Models.ViewModels
         public int? SecilenOgrenciId { get; set; }
         public int? SecilenKitapId { get; set; }
         public string SecilenOgrenciAdSoyad { get; set; } = string.Empty;
-    }
-
-    public class OgrenciOkumaViewModel
-    {
-        public int OgrenciId { get; set; }
-        public string AdSoyad { get; set; } = string.Empty;
-        public string SinifAdi { get; set; } = string.Empty;
-        public int OkumaSayisi { get; set; }
     }
 
     public class KitapOkunmaViewModel

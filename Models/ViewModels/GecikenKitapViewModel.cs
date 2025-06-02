@@ -1,3 +1,5 @@
+using System;
+
 namespace Kutuphane.Models.ViewModels
 {
     public class GecikenKitapViewModel
@@ -11,4 +13,4 @@ namespace Kutuphane.Models.ViewModels
         public DateTime OduncAlmaTarihi { get; set; }
         public int GecikmeGunu { get; set; }
     }
-}
+} 
